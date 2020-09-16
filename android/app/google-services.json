@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "541642630209",
+    "firebase_url": "https://the-pond-app.firebaseio.com",
+    "project_id": "the-pond-app",
+    "storage_bucket": "the-pond-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:541642630209:android:8dadf168eca116b16512c0",
+        "android_client_info": {
+          "package_name": "com.howtohockey.thepondapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "541642630209-jbgcsi3cmk4fq6hi8nss6672tklvj00h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoSWim4GptSro0gly6dN8dClVQMcxeCbA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "541642630209-jbgcsi3cmk4fq6hi8nss6672tklvj00h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
