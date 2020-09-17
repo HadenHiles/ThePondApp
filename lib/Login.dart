@@ -38,7 +38,19 @@ class Login extends StatelessWidget {
             }),
             SignInButton(
               Buttons.Facebook,
-              onPressed: () {},
+              onPressed: () {
+                signInWithFacebook().then((credential) {
+                  if (credential.user != null) {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return Dashboard();
+                        },
+                      ),
+                    );
+                  }
+                });
+              },
             ),
           ],
         ),
