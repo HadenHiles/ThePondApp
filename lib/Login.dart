@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:thepondapp/Dashboard.dart';
 import 'package:thepondapp/SignIn.dart';
@@ -8,6 +9,11 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //If user is signed in
+    if (FirebaseAuth.instance.currentUser != null) {
+      return Dashboard();
+    }
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -41,6 +47,9 @@ class Login extends StatelessWidget {
                         },
                       ),
                     );
+                  } else {
+                    // There was an issue signing in
+                    throw ('Failed to login with Google.');
                   }
                 });
               }),
@@ -56,6 +65,9 @@ class Login extends StatelessWidget {
                           },
                         ),
                       );
+                    } else {
+                      // There was an issue signing in
+                      throw ('Failed to login with Facebook.');
                     }
                   });
                 },

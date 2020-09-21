@@ -31,9 +31,9 @@ class SplashScreen extends StatelessWidget {
         backGroundColor: Color.fromARGB(0, 0, 0, 0),
         duration: 1200,
         logoSize: 750,
-        type: CustomSplashType.BackgroundProcess,
+        type: CustomSplashType.StaticDuration,
         customFunction: backgroundTask,
-        home: Login(),
+        home: Dashboard(),
         outputAndHome: returnValueAndHomeScreen,
       ),
     );

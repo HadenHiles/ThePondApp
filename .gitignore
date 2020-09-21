@@ -47,6 +47,9 @@ app.*.map.json
 **/android/gradlew
 **/android/gradlew.bat
 **/android/key.properties
+**/android/app/key.jks
+**/android/debugkey.properties
+**/android/app/debugkey.jks
 **/android/local.properties
 **/android/**/GeneratedPluginRegistrant.java
 

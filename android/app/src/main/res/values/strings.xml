@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">thepondapp</string>
     <string name="facebook_app_id">329748144793963</string>
+    <string name="fb_login_protocol_scheme">fb329748144793963</string>
 </resources>
