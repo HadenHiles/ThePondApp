@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'Login.dart';
 import 'SignIn.dart';
 import 'ShotCard.dart';
@@ -35,7 +36,6 @@ class _DashboardState extends State<Dashboard> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Container(
-          margin: EdgeInsets.only(left: 10),
           child: widget.logo != null
               ? widget.logo
               : Image(
@@ -46,20 +46,18 @@ class _DashboardState extends State<Dashboard> {
                 ),
         ),
         actions: [
-          IconButton(
-            icon: Icon(Icons.exit_to_app),
-            onPressed: () {
-              signOut();
-
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) {
-                    return Login();
-                  },
-                ),
-              );
-            },
-          ),
+          Container(
+            height: 40,
+            width: 55,
+            padding: EdgeInsets.all(5),
+            child: CircleAvatar(
+              radius: 40,
+              backgroundImage: NetworkImage(
+                FirebaseAuth.instance.currentUser.photoURL,
+              ),
+              backgroundColor: Colors.transparent,
+            ),
+          )
         ],
       ),
       body: Container(
@@ -96,6 +94,65 @@ class _DashboardState extends State<Dashboard> {
                 print('Backhand card tapped.');
               },
             )
+          ],
+        ),
+      ),
+      drawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              child: Center(
+                child: Image(
+                  height: 150,
+                  image: AssetImage(
+                      'assets/images/logo/THEPOND_WHITE_SNOWBANK.png'),
+                ),
+              ),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/login-bg.jpg'),
+                  fit: BoxFit.cover,
+                  alignment: Alignment.bottomCenter,
+                  colorFilter: new ColorFilter.mode(
+                    Colors.black.withOpacity(0.4),
+                    BlendMode.darken,
+                  ),
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text('My Profile'),
+              trailing: CircleAvatar(
+                backgroundImage:
+                    NetworkImage(FirebaseAuth.instance.currentUser.photoURL),
+              ),
+              onTap: () {
+                //Do something
+
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text('Logout'),
+              trailing: Icon(Icons.exit_to_app),
+              onTap: () {
+                signOut();
+
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return Login();
+                    },
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),
