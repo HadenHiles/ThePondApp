@@ -25,13 +25,10 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
+
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
@@ -47,25 +44,30 @@ class _DashboardState extends State<Dashboard> {
         ),
         actions: [
           Container(
-            height: 40,
-            width: 55,
-            padding: EdgeInsets.all(5),
-            child: CircleAvatar(
-              radius: 40,
-              backgroundImage: NetworkImage(
-                FirebaseAuth.instance.currentUser.photoURL,
-              ),
-              backgroundColor: Colors.transparent,
-            ),
-          )
+              height: 40,
+              width: 55,
+              padding: EdgeInsets.all(5),
+              child: GestureDetector(
+                child: CircleAvatar(
+                  radius: 40,
+                  backgroundImage: NetworkImage(
+                    FirebaseAuth.instance.currentUser.photoURL,
+                  ),
+                  backgroundColor: Colors.transparent,
+                ),
+                onTap: () {
+                  _scaffoldKey.currentState.openEndDrawer();
+                },
+              ))
         ],
       ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-              image: AssetImage('assets/images/snowbank.png'),
-              fit: BoxFit.fitWidth,
-              alignment: Alignment.bottomRight),
+            image: AssetImage('assets/images/snowbank.png'),
+            fit: BoxFit.fitWidth,
+            alignment: Alignment.bottomRight,
+          ),
         ),
         child: GridView.count(
           crossAxisCount: 2,
@@ -97,10 +99,7 @@ class _DashboardState extends State<Dashboard> {
           ],
         ),
       ),
-      drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
+      endDrawer: Drawer(
         child: ListView(
           // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
@@ -128,8 +127,8 @@ class _DashboardState extends State<Dashboard> {
             ListTile(
               title: Text('My Profile'),
               trailing: CircleAvatar(
-                backgroundImage:
-                    NetworkImage(FirebaseAuth.instance.currentUser.photoURL),
+                backgroundImage: NetworkImage(
+                    FirebaseAuth.instance.currentUser.providerData[0].photoURL),
               ),
               onTap: () {
                 //Do something
@@ -137,6 +136,9 @@ class _DashboardState extends State<Dashboard> {
                 // Then close the drawer
                 Navigator.pop(context);
               },
+            ),
+            Divider(
+              thickness: 2,
             ),
             ListTile(
               title: Text('Logout'),
