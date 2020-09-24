@@ -37,39 +37,16 @@ class Login extends StatelessWidget {
                 image:
                     AssetImage('assets/images/logo/THEPOND_WHITE_SNOWBANK.png'),
               ),
-              SignInButton(Buttons.Google, onPressed: () {
-                signInWithGoogle().then((credential) {
-                  if (credential.user != null) {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return Dashboard();
-                        },
-                      ),
-                    );
-                  } else {
-                    // There was an issue signing in
-                    throw ('Failed to login with Google.');
-                  }
-                });
-              }),
+              SignInButton(
+                Buttons.Google,
+                onPressed: () {
+                  _googleSignIn(context);
+                },
+              ),
               SignInButton(
                 Buttons.Facebook,
                 onPressed: () {
-                  signInWithFacebook().then((credential) {
-                    if (credential.user != null) {
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return Dashboard();
-                          },
-                        ),
-                      );
-                    } else {
-                      // There was an issue signing in
-                      throw ('Failed to login with Facebook.');
-                    }
-                  });
+                  _facebookSignIn(context);
                 },
               ),
             ],
@@ -77,5 +54,54 @@ class Login extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _googleSignIn(context) {
+    signInWithGoogle().then((credential) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) {
+            return Dashboard();
+          },
+        ),
+      );
+    });
+  }
+
+  _facebookSignIn(context) {
+    signInWithFacebook().then((credential) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) {
+            return Dashboard();
+          },
+        ),
+      );
+    }).catchError((e) {
+      final _auth = FirebaseAuth.instance;
+      // The account already exists with a different credential
+      String email = e.email;
+      AuthCredential pendingFbCredential = e.credential;
+
+      // Fetch a list of what sign-in methods exist for the conflicting user
+      _auth.fetchSignInMethodsForEmail(email).then((userSignInMethods) {
+        // Since the user signed in with google first - make them sign in again before linking their facebook account
+        if (userSignInMethods.first == 'google.com') {
+          signInWithGoogle().then((credential) {
+            credential.user
+                .linkWithCredential(pendingFbCredential)
+                .then((credential) {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return Dashboard();
+                  },
+                ),
+              );
+            });
+          });
+        }
+      });
+    });
   }
 }

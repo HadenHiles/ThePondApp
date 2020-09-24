@@ -51,7 +51,7 @@ class _DashboardState extends State<Dashboard> {
                 child: CircleAvatar(
                   radius: 40,
                   backgroundImage: NetworkImage(
-                    FirebaseAuth.instance.currentUser.photoURL,
+                    FirebaseAuth.instance.currentUser.providerData[0].photoURL,
                   ),
                   backgroundColor: Colors.transparent,
                 ),
