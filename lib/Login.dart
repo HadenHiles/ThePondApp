@@ -14,7 +14,10 @@ class Login extends StatelessWidget {
       return Dashboard();
     }
 
+    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
     return Scaffold(
+      key: _scaffoldKey,
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -40,13 +43,39 @@ class Login extends StatelessWidget {
               SignInButton(
                 Buttons.Google,
                 onPressed: () {
-                  _googleSignIn(context);
+                  _signIn(context, 'google', (error) {
+                    _scaffoldKey.currentState.showSnackBar(
+                      SnackBar(
+                        content: Text(error),
+                        duration: Duration(seconds: 10),
+                        action: SnackBarAction(
+                          label: "Dismiss",
+                          onPressed: () {
+                            _scaffoldKey.currentState.hideCurrentSnackBar();
+                          },
+                        ),
+                      ),
+                    );
+                  });
                 },
               ),
               SignInButton(
                 Buttons.Facebook,
                 onPressed: () {
-                  _facebookSignIn(context);
+                  _signIn(context, 'facebook', (error) {
+                    _scaffoldKey.currentState.showSnackBar(
+                      SnackBar(
+                        content: Text(error),
+                        duration: Duration(seconds: 10),
+                        action: SnackBarAction(
+                          label: "Dismiss",
+                          onPressed: () {
+                            _scaffoldKey.currentState.hideCurrentSnackBar();
+                          },
+                        ),
+                      ),
+                    );
+                  });
                 },
               ),
             ],
@@ -56,52 +85,43 @@ class Login extends StatelessWidget {
     );
   }
 
-  _googleSignIn(context) {
-    signInWithGoogle().then((credential) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) {
-            return Dashboard();
-          },
-        ),
-      );
-    });
-  }
-
-  _facebookSignIn(context) {
-    signInWithFacebook().then((credential) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) {
-            return Dashboard();
-          },
-        ),
-      );
-    }).catchError((e) {
-      final _auth = FirebaseAuth.instance;
-      // The account already exists with a different credential
-      String email = e.email;
-      AuthCredential pendingFbCredential = e.credential;
-
-      // Fetch a list of what sign-in methods exist for the conflicting user
-      _auth.fetchSignInMethodsForEmail(email).then((userSignInMethods) {
-        // Since the user signed in with google first - make them sign in again before linking their facebook account
-        if (userSignInMethods.first == 'google.com') {
-          signInWithGoogle().then((credential) {
-            credential.user
-                .linkWithCredential(pendingFbCredential)
-                .then((credential) {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) {
-                    return Dashboard();
-                  },
-                ),
-              );
-            });
-          });
+  _signIn(BuildContext context, String provider, Function error) {
+    if (provider == 'google') {
+      signInWithGoogle().then((credential) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) {
+              return Dashboard();
+            },
+          ),
+        );
+      }).catchError((e) {
+        var message = "There was an error signing in with Google";
+        if (e.code == "user-disabled") {
+          message = "Your account has been disabled by the administrator";
         }
+
+        print(e);
+        error(message);
       });
-    });
+    } else if (provider == 'facebook') {
+      signInWithFacebook().then((credential) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) {
+              return Dashboard();
+            },
+          ),
+        );
+      }).catchError((e) {
+        var message = "There was an error signing in with Facebook";
+        if (e.code == "user-disabled") {
+          message = "Your account has been disabled by the administrator";
+        }
+
+        print(e);
+        error(message);
+      });
+    }
   }
 }
