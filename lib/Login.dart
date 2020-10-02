@@ -36,10 +36,12 @@ class _LoginState extends State<Login> {
     return estimatePasswordStrength(pass) > 0.7;
   }
 
+  bool _signedIn = FirebaseAuth.instance.currentUser != null;
+
   @override
   Widget build(BuildContext context) {
     //If user is signed in
-    if (FirebaseAuth.instance.currentUser != null) {
+    if (_signedIn) {
       return Dashboard();
     }
 
@@ -339,13 +341,9 @@ class _LoginState extends State<Login> {
   _signIn(BuildContext context, String provider, Function error) {
     if (provider == 'google') {
       signInWithGoogle().then((credential) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) {
-              return Dashboard();
-            },
-          ),
-        );
+        setState(() {
+          _signedIn = true;
+        });
       }).catchError((e) {
         var message = "There was an error signing in with Google";
         if (e.code == "user-disabled") {
@@ -360,13 +358,9 @@ class _LoginState extends State<Login> {
       });
     } else if (provider == 'facebook') {
       signInWithFacebook().then((credential) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) {
-              return Dashboard();
-            },
-          ),
-        );
+        setState(() {
+          _signedIn = true;
+        });
       }).catchError((e) {
         var message = "There was an error signing in with Facebook";
         if (e.code == "user-disabled") {
