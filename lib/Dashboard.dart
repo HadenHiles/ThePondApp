@@ -32,6 +32,9 @@ class _DashboardState extends State<Dashboard> {
     backgroundImage: AssetImage("/assets/images/placeholder-avatar.png"),
     backgroundColor: Colors.transparent,
   );
+  CircleAvatar simpleProfileAvatar = CircleAvatar(
+    backgroundImage: AssetImage("/assets/images/placeholder-avatar.png"),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +48,11 @@ class _DashboardState extends State<Dashboard> {
           FirebaseAuth.instance.currentUser.providerData[0].photoURL,
         ),
         backgroundColor: Colors.transparent,
+      );
+      simpleProfileAvatar = CircleAvatar(
+        backgroundImage: NetworkImage(
+          FirebaseAuth.instance.currentUser.providerData[0].photoURL,
+        ),
       );
     }
 
@@ -142,7 +150,7 @@ class _DashboardState extends State<Dashboard> {
             ),
             ListTile(
               title: Text('My Profile'),
-              trailing: profileAvatar,
+              trailing: simpleProfileAvatar,
               onTap: () {
                 //Do something
 
