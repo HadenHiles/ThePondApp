@@ -23,10 +23,32 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  bool isSignedIn() {
+    return FirebaseAuth.instance.currentUser != null;
+  }
+
+  CircleAvatar profileAvatar = CircleAvatar(
+    radius: 40,
+    backgroundImage: AssetImage("/assets/images/placeholder-avatar.png"),
+    backgroundColor: Colors.transparent,
+  );
+
   @override
   Widget build(BuildContext context) {
-    GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
+    if (!isSignedIn()) {
+      signOut();
+      return Login();
+    } else {
+      profileAvatar = CircleAvatar(
+        radius: 40,
+        backgroundImage: NetworkImage(
+          FirebaseAuth.instance.currentUser.providerData[0].photoURL,
+        ),
+        backgroundColor: Colors.transparent,
+      );
+    }
 
+    GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -48,13 +70,7 @@ class _DashboardState extends State<Dashboard> {
               width: 55,
               padding: EdgeInsets.all(5),
               child: GestureDetector(
-                child: CircleAvatar(
-                  radius: 40,
-                  backgroundImage: NetworkImage(
-                    FirebaseAuth.instance.currentUser.providerData[0].photoURL,
-                  ),
-                  backgroundColor: Colors.transparent,
-                ),
+                child: profileAvatar,
                 onTap: () {
                   _scaffoldKey.currentState.openEndDrawer();
                 },
@@ -126,10 +142,7 @@ class _DashboardState extends State<Dashboard> {
             ),
             ListTile(
               title: Text('My Profile'),
-              trailing: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    FirebaseAuth.instance.currentUser.providerData[0].photoURL),
-              ),
+              trailing: profileAvatar,
               onTap: () {
                 //Do something
 

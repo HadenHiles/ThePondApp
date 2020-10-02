@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'Login.dart';
+import 'package:thepondapp/Dashboard.dart';
 import 'package:flutter/services.dart';
 
 Future<void> main() async {
@@ -28,7 +28,7 @@ class ThePond extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Login(),
+      home: Dashboard(),
     );
   }
 }

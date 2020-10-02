@@ -201,6 +201,9 @@ class _LoginState extends State<Login> {
                                                 .validate()) {
                                               _signInFormKey.currentState
                                                   .save();
+                                              setState(() {
+                                                _signedIn = true;
+                                              });
                                             }
                                           },
                                         ),
