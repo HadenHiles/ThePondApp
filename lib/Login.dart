@@ -476,6 +476,9 @@ class _LoginState extends State<Login> {
       } else if (e.code == 'email-already-in-use') {
         print(e.toString());
         await error('The account already exists for that email');
+      } else {
+        print(e.toString());
+        await error('There was an error signing up');
       }
     } catch (e) {
       print(e.toString());
@@ -504,6 +507,9 @@ class _LoginState extends State<Login> {
       } else if (e.code == 'wrong-password') {
         print(e.toString());
         await error('Wrong password');
+      } else {
+        print(e.toString());
+        await error('There was an error signing in');
       }
     } catch (e) {
       print(e.toString());
