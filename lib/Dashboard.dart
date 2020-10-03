@@ -23,24 +23,68 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  bool isSignedIn() {
-    return FirebaseAuth.instance.currentUser != null;
-  }
+  // Auth variables
+  FirebaseAuth auth = FirebaseAuth.instance;
+  User user = FirebaseAuth.instance.currentUser;
+
+  // State variables
+  bool signedIn = FirebaseAuth.instance.currentUser != null;
+  bool emailVerified = FirebaseAuth.instance.currentUser?.emailVerified;
 
   CircleAvatar profileAvatar = CircleAvatar(
     radius: 40,
-    backgroundImage: AssetImage("/assets/images/placeholder-avatar.png"),
+    backgroundImage: AssetImage("assets/images/placeholder-avatar.png"),
     backgroundColor: Colors.transparent,
   );
   CircleAvatar simpleProfileAvatar = CircleAvatar(
-    backgroundImage: AssetImage("/assets/images/placeholder-avatar.png"),
+    backgroundImage: AssetImage("assets/images/placeholder-avatar.png"),
   );
 
   @override
   Widget build(BuildContext context) {
-    if (!isSignedIn()) {
+    if (!signedIn) {
       signOut();
       return Login();
+    } else if (!emailVerified) {
+      return AlertDialog(
+        actions: [
+          FlatButton(
+            onPressed: () {
+              setState(() {
+                signedIn = false;
+              });
+            },
+            child: Text('Close'),
+          ),
+          FlatButton(
+            onPressed: () async {
+              await user.sendEmailVerification().then((_) {
+                setState(() {
+                  signedIn = false;
+                });
+              });
+            },
+            child: Text('Resend'),
+          ),
+        ],
+        content: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: EdgeInsets.all(20),
+              child: Center(
+                child: Text(
+                  'A verification email has been sent to ${user.email}\n\nPlease verify your email address to continue.',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
     } else {
       profileAvatar = CircleAvatar(
         radius: 40,

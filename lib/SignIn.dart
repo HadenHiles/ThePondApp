@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
-final FirebaseAuth _auth = FirebaseAuth.instance;
+final FirebaseAuth auth = FirebaseAuth.instance;
 
 Future<UserCredential> signInWithGoogle() async {
   // Trigger the authentication flow
@@ -18,7 +18,7 @@ Future<UserCredential> signInWithGoogle() async {
   );
 
   // Once signed in, return the UserCredential
-  return await _auth.signInWithCredential(credential);
+  return await auth.signInWithCredential(credential);
 }
 
 Future<UserCredential> signInWithFacebook() async {
@@ -30,9 +30,9 @@ Future<UserCredential> signInWithFacebook() async {
       FacebookAuthProvider.credential(result.accessToken.token);
 
   // Once signed in, return the UserCredential
-  return await _auth.signInWithCredential(facebookAuthCredential);
+  return await auth.signInWithCredential(facebookAuthCredential);
 }
 
 Future<void> signOut() async {
-  await _auth.signOut();
+  await auth.signOut();
 }

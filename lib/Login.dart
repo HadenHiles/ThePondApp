@@ -29,18 +29,19 @@ class _LoginState extends State<Login> {
   // static form variables
   final _signInFormKey = GlobalKey<FormState>();
   final _signUpFormKey = GlobalKey<FormState>();
-  final TextEditingController _pass = TextEditingController();
-  final TextEditingController _confirmPass = TextEditingController();
-  final _authCodeFormKey = GlobalKey<FormState>();
+  final TextEditingController _signInEmail = TextEditingController();
+  final TextEditingController _signInPass = TextEditingController();
+  final TextEditingController _signUpEmail = TextEditingController();
+  final TextEditingController _signUpPass = TextEditingController();
+  final TextEditingController _signUpConfirmPass = TextEditingController();
 
   // State variables
-  bool validCode = false;
-  bool _signedIn = FirebaseAuth.instance.currentUser != null;
+  bool signedIn = FirebaseAuth.instance.currentUser != null;
 
   @override
   Widget build(BuildContext context) {
     //If user is signed in
-    if (_signedIn) {
+    if (signedIn) {
       return Dashboard();
     }
 
@@ -75,6 +76,7 @@ class _LoginState extends State<Login> {
                 Buttons.Google,
                 onPressed: () {
                   socialSignIn(context, 'google', (error) {
+                    _scaffoldKey.currentState.hideCurrentSnackBar();
                     _scaffoldKey.currentState.showSnackBar(
                       SnackBar(
                         content: Text(error),
@@ -94,6 +96,7 @@ class _LoginState extends State<Login> {
                 Buttons.Facebook,
                 onPressed: () {
                   socialSignIn(context, 'facebook', (error) {
+                    _scaffoldKey.currentState.hideCurrentSnackBar();
                     _scaffoldKey.currentState.showSnackBar(
                       SnackBar(
                         content: Text(error),
@@ -143,8 +146,149 @@ class _LoginState extends State<Login> {
                     showDialog(
                       context: context,
                       builder: (context) {
-                        return AlertDialog(
-                          content: SingleChildScrollView(
+                        return SimpleDialog(
+                          contentPadding: EdgeInsets.all(25),
+                          children: [
+                            SingleChildScrollView(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Image(
+                                        height: 50,
+                                        image: AssetImage(
+                                          'assets/images/logo/THEPOND_RGB_WORDMARK_RAW.png',
+                                        ),
+                                      ),
+                                      Text(
+                                        'SIGN IN',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  Form(
+                                    key: _signInFormKey,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: TextFormField(
+                                            controller: _signInEmail,
+                                            decoration: InputDecoration(
+                                              labelText: 'Email',
+                                            ),
+                                            keyboardType:
+                                                TextInputType.emailAddress,
+                                            validator: (String value) {
+                                              if (value.isEmpty) {
+                                                return 'Please enter your email';
+                                              } else if (!validEmail(value)) {
+                                                return 'Invalid email address';
+                                              }
+
+                                              return null;
+                                            },
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: TextFormField(
+                                            controller: _signInPass,
+                                            obscureText: true,
+                                            decoration: InputDecoration(
+                                              labelText: 'Password',
+                                            ),
+                                            keyboardType:
+                                                TextInputType.visiblePassword,
+                                            validator: (String value) {
+                                              if (value.isEmpty) {
+                                                return 'Please enter a password';
+                                              }
+
+                                              return null;
+                                            },
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: SizedBox(
+                                            width: double.infinity,
+                                            child: RaisedButton(
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              textColor: Colors.white,
+                                              child: Text("Sign in"),
+                                              onPressed: () {
+                                                if (_signInFormKey.currentState
+                                                    .validate()) {
+                                                  _signInFormKey.currentState
+                                                      .save();
+
+                                                  signIn(
+                                                      context,
+                                                      AuthAttempt(
+                                                        _signInEmail.text,
+                                                        _signInPass.text,
+                                                      ), (error) {
+                                                    _scaffoldKey.currentState
+                                                        .hideCurrentSnackBar();
+                                                    _scaffoldKey.currentState
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        content: Text(error),
+                                                        duration: Duration(
+                                                            seconds: 10),
+                                                        action: SnackBarAction(
+                                                          label: "Dismiss",
+                                                          onPressed: () {
+                                                            _scaffoldKey
+                                                                .currentState
+                                                                .hideCurrentSnackBar();
+                                                          },
+                                                        ),
+                                                      ),
+                                                    );
+                                                  });
+                                                }
+                                              },
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+              FlatButton(
+                color: Colors.transparent,
+                child: Text(
+                  'Sign up',
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return SimpleDialog(
+                        contentPadding: EdgeInsets.all(25),
+                        children: [
+                          SingleChildScrollView(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -160,22 +304,23 @@ class _LoginState extends State<Login> {
                                       ),
                                     ),
                                     Text(
-                                      'SIGN IN',
+                                      'SIGN UP',
                                       style: TextStyle(
-                                        fontSize: 16,
                                         fontWeight: FontWeight.bold,
+                                        fontSize: 16,
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                                 Form(
-                                  key: _signInFormKey,
+                                  key: _signUpFormKey,
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
                                       Padding(
                                         padding: EdgeInsets.all(8.0),
                                         child: TextFormField(
+                                          controller: _signUpEmail,
                                           decoration: InputDecoration(
                                             labelText: 'Email',
                                           ),
@@ -184,7 +329,8 @@ class _LoginState extends State<Login> {
                                           validator: (String value) {
                                             if (value.isEmpty) {
                                               return 'Please enter your email';
-                                            } else if (!validEmail(value)) {
+                                            }
+                                            if (!validEmail(value)) {
                                               return 'Invalid email address';
                                             }
 
@@ -195,6 +341,7 @@ class _LoginState extends State<Login> {
                                       Padding(
                                         padding: EdgeInsets.all(8.0),
                                         child: TextFormField(
+                                          controller: _signUpPass,
                                           obscureText: true,
                                           decoration: InputDecoration(
                                             labelText: 'Password',
@@ -213,6 +360,28 @@ class _LoginState extends State<Login> {
                                         ),
                                       ),
                                       Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: TextFormField(
+                                          controller: _signUpConfirmPass,
+                                          obscureText: true,
+                                          decoration: InputDecoration(
+                                            labelText: 'Confirm Password',
+                                          ),
+                                          keyboardType:
+                                              TextInputType.visiblePassword,
+                                          validator: (String value) {
+                                            if (value.isEmpty) {
+                                              return 'Please confirm your password';
+                                            } else if (value !=
+                                                _signUpPass.text) {
+                                              return 'Passwords do not match';
+                                            }
+
+                                            return null;
+                                          },
+                                        ),
+                                      ),
+                                      Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: SizedBox(
                                           width: double.infinity,
@@ -222,12 +391,35 @@ class _LoginState extends State<Login> {
                                             textColor: Colors.white,
                                             child: Text("Sign up"),
                                             onPressed: () {
-                                              if (_signInFormKey.currentState
+                                              if (_signUpFormKey.currentState
                                                   .validate()) {
-                                                _signInFormKey.currentState
+                                                _signUpFormKey.currentState
                                                     .save();
-                                                setState(() {
-                                                  _signedIn = true;
+
+                                                signUp(
+                                                    context,
+                                                    AuthAttempt(
+                                                      _signUpEmail.text,
+                                                      _signUpPass.text,
+                                                    ), (error) {
+                                                  _scaffoldKey.currentState
+                                                      .hideCurrentSnackBar();
+                                                  _scaffoldKey.currentState
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(error),
+                                                      duration:
+                                                          Duration(seconds: 10),
+                                                      action: SnackBarAction(
+                                                        label: "Dismiss",
+                                                        onPressed: () {
+                                                          _scaffoldKey
+                                                              .currentState
+                                                              .hideCurrentSnackBar();
+                                                        },
+                                                      ),
+                                                    ),
+                                                  );
                                                 });
                                               }
                                             },
@@ -240,144 +432,7 @@ class _LoginState extends State<Login> {
                               ],
                             ),
                           ),
-                        );
-                      },
-                    );
-                  },
-                ),
-              ),
-              FlatButton(
-                color: Colors.transparent,
-                child: Text(
-                  'Sign up',
-                  style: TextStyle(color: Colors.white),
-                ),
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        content: SingleChildScrollView(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Image(
-                                    height: 50,
-                                    image: AssetImage(
-                                      'assets/images/logo/THEPOND_RGB_WORDMARK_RAW.png',
-                                    ),
-                                  ),
-                                  Text(
-                                    'SIGN UP',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Form(
-                                key: _signUpFormKey,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: TextFormField(
-                                        decoration: InputDecoration(
-                                          labelText: 'Email',
-                                        ),
-                                        keyboardType:
-                                            TextInputType.emailAddress,
-                                        validator: (String value) {
-                                          if (value.isEmpty) {
-                                            return 'Please enter your email';
-                                          }
-                                          if (!validEmail(value)) {
-                                            return 'Invalid email address';
-                                          }
-
-                                          return null;
-                                        },
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: TextFormField(
-                                        controller: _pass,
-                                        obscureText: true,
-                                        decoration: InputDecoration(
-                                          labelText: 'Password',
-                                        ),
-                                        keyboardType:
-                                            TextInputType.visiblePassword,
-                                        validator: (String value) {
-                                          if (value.isEmpty) {
-                                            return 'Please enter a password';
-                                          } else if (!validPassword(value)) {
-                                            return 'Please enter a stronger password';
-                                          }
-
-                                          return null;
-                                        },
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: TextFormField(
-                                        controller: _confirmPass,
-                                        obscureText: true,
-                                        decoration: InputDecoration(
-                                          labelText: 'Confirm Password',
-                                        ),
-                                        keyboardType:
-                                            TextInputType.visiblePassword,
-                                        validator: (String value) {
-                                          if (value.isEmpty) {
-                                            return 'Please confirm your password';
-                                          } else if (value != _pass.text) {
-                                            return 'Passwords do not match';
-                                          }
-
-                                          return null;
-                                        },
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: SizedBox(
-                                        width: double.infinity,
-                                        child: RaisedButton(
-                                          color: Theme.of(context).primaryColor,
-                                          textColor: Colors.white,
-                                          child: Text("Sign Up"),
-                                          onPressed: () {
-                                            if (_signUpFormKey.currentState
-                                                .validate()) {
-                                              _signUpFormKey.currentState
-                                                  .save();
-
-                                              verifyEmail().then((_) {
-                                                setState(() {
-                                                  _signedIn = true;
-                                                });
-                                              });
-                                            }
-                                          },
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        ],
                       );
                     },
                   );
@@ -400,113 +455,69 @@ class _LoginState extends State<Login> {
     return estimatePasswordStrength(pass) > 0.7;
   }
 
-  Future<void> verifyEmail() async {
-    if (!user.emailVerified) {
-      await user.sendEmailVerification();
-      return AlertDialog(
-        content: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Image(
-              height: 150,
-              image: AssetImage(
-                'assets/images/logo/THEPOND_RGB_WORDMARK_RAW.png',
-              ),
-            ),
-            Text('A verification code has been sent to ${user.email}'),
-            Form(
-              key: _authCodeFormKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(10),
-                        hintText: 'Code',
-                        labelText: 'Authentication Code',
-                      ),
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (String value) {
-                        if (value.isEmpty) {
-                          return 'Please enter the code';
-                        }
-
-                        if (!validCode) {
-                          return 'Invalid code';
-                        }
-
-                        return null;
-                      },
-                      onChanged: (code) async {
-                        if (code.length >= 7) {
-                          try {
-                            await auth.checkActionCode(code);
-                            await auth.applyActionCode(code);
-
-                            if (_authCodeFormKey.currentState.validate()) {
-                              // If successful, reload the user:
-                              auth.currentUser.reload();
-                              setState(() {
-                                validCode = true;
-                              });
-
-                              _authCodeFormKey.currentState.save();
-                            }
-                          } on FirebaseAuthException catch (e) {
-                            if (e.code == 'invalid-action-code') {
-                              setState(() {
-                                validCode = false;
-                              });
-                            }
-                          }
-                        }
-                        _authCodeFormKey.currentState.save();
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-  }
-
   signUp(BuildContext context, AuthAttempt authAttempt, Function error) async {
     try {
-      UserCredential userCredential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
         email: authAttempt.email,
         password: authAttempt.password,
-      );
+      )
+          .then((_) {
+        Navigator.of(context, rootNavigator: true).pop('dialog');
+
+        setState(() {
+          signedIn = true;
+        });
+      });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print(e.toString());
-        error('The password provided is too weak.');
+        await error('The password provided is too weak');
       } else if (e.code == 'email-already-in-use') {
         print(e.toString());
-        error('The account already exists for that email.');
+        await error('The account already exists for that email');
       }
     } catch (e) {
       print(e.toString());
-      error('There was an error signing up.');
+      await error('There was an error signing up');
     }
   }
 
-  socialSignIn(BuildContext context, String provider, Function error) {
+  signIn(BuildContext context, AuthAttempt authAttempt, Function error) async {
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+        email: authAttempt.email,
+        password: authAttempt.password,
+      )
+          .then((_) {
+        Navigator.of(context, rootNavigator: true).pop('dialog');
+
+        setState(() {
+          signedIn = true;
+        });
+      });
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print(e.toString());
+        await error('No user found for that email');
+      } else if (e.code == 'wrong-password') {
+        print(e.toString());
+        await error('Wrong password');
+      }
+    } catch (e) {
+      print(e.toString());
+      await error('There was an error signing in');
+    }
+  }
+
+  socialSignIn(BuildContext context, String provider, Function error) async {
     if (provider == 'google') {
       signInWithGoogle().then((credential) {
         setState(() {
-          _signedIn = true;
+          signedIn = true;
         });
-      }).catchError((e) {
+      }).catchError((e) async {
         var message = "There was an error signing in with Google";
         if (e.code == "user-disabled") {
           message = "Your account has been disabled by the administrator";
@@ -516,12 +527,12 @@ class _LoginState extends State<Login> {
         }
 
         print(e);
-        error(message);
+        await error(message);
       });
     } else if (provider == 'facebook') {
       signInWithFacebook().then((credential) {
         setState(() {
-          _signedIn = true;
+          signedIn = true;
         });
       }).catchError((e) {
         var message = "There was an error signing in with Facebook";
