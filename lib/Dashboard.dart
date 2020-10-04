@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'Login.dart';
-import 'SignIn.dart';
-import 'ShotCard.dart';
+import 'package:thepondapp/PrimaryScaffold.dart';
+import 'package:thepondapp/Login.dart';
+import 'package:thepondapp/SignIn.dart';
+import 'package:thepondapp/SnowbankContainer.dart';
+import 'package:thepondapp/ShotCard.dart';
 
 class Dashboard extends StatefulWidget {
   Dashboard({Key key, this.logo}) : super(key: key);
@@ -30,15 +32,6 @@ class _DashboardState extends State<Dashboard> {
   // State variables
   bool signedIn = FirebaseAuth.instance.currentUser != null;
   bool emailVerified = FirebaseAuth.instance.currentUser?.emailVerified;
-
-  CircleAvatar profileAvatar = CircleAvatar(
-    radius: 40,
-    backgroundImage: AssetImage("assets/images/placeholder-avatar.png"),
-    backgroundColor: Colors.transparent,
-  );
-  CircleAvatar simpleProfileAvatar = CircleAvatar(
-    backgroundImage: AssetImage("assets/images/placeholder-avatar.png"),
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -85,58 +78,10 @@ class _DashboardState extends State<Dashboard> {
           ],
         ),
       );
-    } else {
-      profileAvatar = CircleAvatar(
-        radius: 40,
-        backgroundImage: NetworkImage(
-          FirebaseAuth.instance.currentUser.providerData[0].photoURL,
-        ),
-        backgroundColor: Colors.transparent,
-      );
-      simpleProfileAvatar = CircleAvatar(
-        backgroundImage: NetworkImage(
-          FirebaseAuth.instance.currentUser.providerData[0].photoURL,
-        ),
-      );
     }
 
-    GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Container(
-          child: widget.logo != null
-              ? widget.logo
-              : Image(
-                  height: 45,
-                  image: AssetImage(
-                    'assets/images/logo/THEPOND_RGB_WHITE_WORDMARK_RAW.png',
-                  ),
-                ),
-        ),
-        actions: [
-          Container(
-              height: 40,
-              width: 55,
-              padding: EdgeInsets.all(5),
-              child: GestureDetector(
-                child: profileAvatar,
-                onTap: () {
-                  _scaffoldKey.currentState.openEndDrawer();
-                },
-              ))
-        ],
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/snowbank.png'),
-            fit: BoxFit.fitWidth,
-            alignment: Alignment.bottomRight,
-          ),
-        ),
+    return PrimaryScaffold(
+      body: SnowbankContainer(
         child: GridView.count(
           crossAxisCount: 2,
           children: [
@@ -164,62 +109,6 @@ class _DashboardState extends State<Dashboard> {
                 print('Backhand card tapped.');
               },
             )
-          ],
-        ),
-      ),
-      endDrawer: Drawer(
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              child: Center(
-                child: Image(
-                  height: 150,
-                  image: AssetImage(
-                      'assets/images/logo/THEPOND_WHITE_SNOWBANK.png'),
-                ),
-              ),
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images/login-bg.jpg'),
-                  fit: BoxFit.cover,
-                  alignment: Alignment.bottomCenter,
-                  colorFilter: new ColorFilter.mode(
-                    Colors.black.withOpacity(0.4),
-                    BlendMode.darken,
-                  ),
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text('My Profile'),
-              trailing: simpleProfileAvatar,
-              onTap: () {
-                //Do something
-
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-            Divider(
-              thickness: 2,
-            ),
-            ListTile(
-              title: Text('Logout'),
-              trailing: Icon(Icons.exit_to_app),
-              onTap: () {
-                signOut();
-
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return Login();
-                    },
-                  ),
-                );
-              },
-            ),
           ],
         ),
       ),
