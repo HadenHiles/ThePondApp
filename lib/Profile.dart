@@ -21,21 +21,44 @@ class _ProfileState extends State<Profile> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.max,
           children: [
-            Container(
-              margin: EdgeInsets.only(
-                top: 20,
-              ),
-              height: 160,
-              child: UserAvatar(),
-            ),
-            Center(
-              child: Text(
-                widget.user.displayName,
-                style: TextStyle(
-                  height: 2,
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
+            Expanded(
+              child: Container(
+                child: ListView(
+                  children: [
+                    Card(
+                      child: ListTile(
+                        leading: Container(
+                          height: double.infinity,
+                          child: UserAvatar(),
+                        ),
+                        title: Container(
+                          padding: EdgeInsets.only(
+                            top: 20,
+                            bottom: 20,
+                          ),
+                          child: Text(
+                            widget.user.displayName,
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Card(
+                      child: ListTile(
+                        leading: Icon(
+                          Icons.link,
+                          size: 32,
+                        ),
+                        title: Text('Link Accounts'),
+                        subtitle: Text('Connect other sign in methods'),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
