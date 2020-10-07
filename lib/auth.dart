@@ -39,6 +39,7 @@ Future<void> signOut() async {
 }
 
 bool emailVerified() {
+  FirebaseAuth.instance.currentUser.reload();
   return FirebaseAuth.instance.currentUser.emailVerified;
 }
 

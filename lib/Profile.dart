@@ -148,10 +148,16 @@ class _ProfileState extends State<Profile> {
                                                           await widget.user
                                                               .sendEmailVerification()
                                                               .then((_) {
-                                                            Timer.periodic(
-                                                                Duration(
-                                                                    seconds: 5),
-                                                                (timer) {
+                                                            var timesChecked =
+                                                                0;
+                                                            return Timer
+                                                                .periodic(
+                                                                    Duration(
+                                                                        seconds:
+                                                                            5),
+                                                                    (timer) {
+                                                              timesChecked++;
+
                                                               if (emailVerified()) {
                                                                 setState(() {
                                                                   emailIsVerified =
@@ -160,7 +166,13 @@ class _ProfileState extends State<Profile> {
                                                                           .emailVerified;
                                                                   emailVerificationSent =
                                                                       false;
+
+                                                                  timer
+                                                                      .cancel();
                                                                 });
+                                                              } else if (timesChecked >=
+                                                                  5) {
+                                                                timer.cancel();
                                                               }
                                                             });
                                                           });
