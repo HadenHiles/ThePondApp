@@ -7,9 +7,10 @@ import 'package:thepondapp/SignIn.dart';
 import 'package:thepondapp/UserAvatar.dart';
 
 class PrimaryScaffold extends StatefulWidget {
-  PrimaryScaffold({Key key, this.body}) : super(key: key);
+  PrimaryScaffold({Key key, this.body, this.snackbar}) : super(key: key);
 
   final Widget body;
+  final Widget snackbar;
 
   @override
   _PrimaryScaffoldState createState() => _PrimaryScaffoldState();

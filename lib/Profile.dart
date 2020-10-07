@@ -4,7 +4,6 @@ import 'package:thepondapp/LinkAccounts.dart';
 import 'package:thepondapp/PrimaryScaffold.dart';
 import 'package:thepondapp/SnowbankContainer.dart';
 import 'package:thepondapp/UserAvatar.dart';
-import 'package:thepondapp/LinkAccounts.dart';
 
 class Profile extends StatefulWidget {
   Profile({Key key, this.user}) : super(key: key);
@@ -50,7 +49,9 @@ class _ProfileState extends State<Profile> {
                           height: 18,
                           child: ListTile(
                             title: Text(
-                              widget.user.displayName,
+                              widget.user.displayName != null
+                                  ? widget.user.displayName
+                                  : "",
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 18,

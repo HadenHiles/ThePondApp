@@ -38,49 +38,12 @@ class _DashboardState extends State<Dashboard> {
     if (!signedIn) {
       signOut();
       return Login();
-    } else if (!emailVerified) {
-      return AlertDialog(
-        actions: [
-          FlatButton(
-            onPressed: () {
-              setState(() {
-                signedIn = false;
-              });
-            },
-            child: Text('Close'),
-          ),
-          FlatButton(
-            onPressed: () async {
-              await user.sendEmailVerification().then((_) {
-                setState(() {
-                  signedIn = false;
-                });
-              });
-            },
-            child: Text('Resend'),
-          ),
-        ],
-        content: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              padding: EdgeInsets.all(20),
-              child: Center(
-                child: Text(
-                  'A verification email has been sent to ${user.email}\n\nPlease verify your email address to continue.',
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
     }
 
+    // Scaffold key
+    GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
     return PrimaryScaffold(
+      key: _scaffoldKey,
       body: SnowbankContainer(
         child: GridView.count(
           crossAxisCount: 2,
