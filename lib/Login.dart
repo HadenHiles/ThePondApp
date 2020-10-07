@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:thepondapp/Dashboard.dart';
-import 'package:thepondapp/SignIn.dart';
-import 'package:password_strength/password_strength.dart';
+import 'package:thepondapp/auth.dart';
 
 class Login extends StatefulWidget {
   Login({Key key}) : super(key: key);
@@ -26,7 +25,7 @@ class _LoginState extends State<Login> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final User user = FirebaseAuth.instance.currentUser;
 
-  // static form variables
+  // static variables
   final _signInFormKey = GlobalKey<FormState>();
   final _signUpFormKey = GlobalKey<FormState>();
   final TextEditingController _signInEmail = TextEditingController();
@@ -34,6 +33,7 @@ class _LoginState extends State<Login> {
   final TextEditingController _signUpEmail = TextEditingController();
   final TextEditingController _signUpPass = TextEditingController();
   final TextEditingController _signUpConfirmPass = TextEditingController();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   // State variables
   bool signedIn = FirebaseAuth.instance.currentUser != null;
@@ -43,13 +43,11 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     //If user is signed in
     if (signedIn) {
-      if (!auth.currentUser.emailVerified) {
+      if (!emailVerified()) {
         auth.currentUser.sendEmailVerification();
       }
       return Dashboard();
     }
-
-    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
     return Scaffold(
       key: _scaffoldKey,
@@ -313,7 +311,7 @@ class _LoginState extends State<Login> {
                                                           AuthAttempt(
                                                             _signInEmail.text,
                                                             _signInPass.text,
-                                                          ), (error) {
+                                                          ), (error) async {
                                                         _scaffoldKey
                                                             .currentState
                                                             .hideCurrentSnackBar();
@@ -357,7 +355,7 @@ class _LoginState extends State<Login> {
                     Container(
                       margin: EdgeInsets.only(
                         top: 10,
-                        bottom: 20,
+                        bottom: 80,
                       ),
                       child: SizedBox(
                         height: 60,
@@ -506,7 +504,7 @@ class _LoginState extends State<Login> {
                                                                     .text,
                                                                 _signUpPass
                                                                     .text,
-                                                              ), (error) {
+                                                              ), (error) async {
                                                             _scaffoldKey
                                                                 .currentState
                                                                 .hideCurrentSnackBar();
@@ -561,16 +559,6 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
-  }
-
-  bool validEmail(String email) {
-    return RegExp(
-            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-        .hasMatch(email);
-  }
-
-  bool validPassword(String pass) {
-    return estimatePasswordStrength(pass) > 0.7;
   }
 
   signUp(BuildContext context, AuthAttempt authAttempt, Function error) async {
@@ -654,14 +642,10 @@ class _LoginState extends State<Login> {
         await error(message);
       });
     } else if (provider == 'facebook') {
-      signInWithFacebook().then((credential) async {
-        if (credential.user.emailVerified) {
-          await user.sendEmailVerification().then((_) {
-            setState(() {
-              signedIn = true;
-            });
-          });
-        }
+      signInWithFacebook().then((credential) {
+        setState(() {
+          signedIn = true;
+        });
       }).catchError((e) {
         var message = "There was an error signing in with Facebook";
         if (e.code == "user-disabled") {

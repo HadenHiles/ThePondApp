@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:thepondapp/PrimaryScaffold.dart';
+import 'package:thepondapp/widgets/PrimaryScaffold.dart';
 import 'package:thepondapp/Login.dart';
-import 'package:thepondapp/SignIn.dart';
-import 'package:thepondapp/SnowbankContainer.dart';
-import 'package:thepondapp/ShotCard.dart';
+import 'package:thepondapp/auth.dart';
+import 'package:thepondapp/widgets/SnowbankContainer.dart';
+import 'package:thepondapp/widgets/ShotCard.dart';
 
 class Dashboard extends StatefulWidget {
   Dashboard({Key key, this.logo}) : super(key: key);

@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:thepondapp/Dashboard.dart';
 import 'package:thepondapp/Profile.dart';
 import 'package:thepondapp/Login.dart';
-import 'package:thepondapp/SignIn.dart';
-import 'package:thepondapp/UserAvatar.dart';
+import 'package:thepondapp/auth.dart';
+import 'package:thepondapp/widgets/UserAvatar.dart';
 
 class PrimaryScaffold extends StatefulWidget {
   PrimaryScaffold({Key key, this.body, this.snackbar}) : super(key: key);
