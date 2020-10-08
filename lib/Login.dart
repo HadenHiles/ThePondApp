@@ -77,8 +77,7 @@ class _LoginState extends State<Login> {
                     Image(
                       height: 280,
                       width: 460,
-                      image: AssetImage(
-                          'assets/images/logo/THEPOND_WHITE_SNOWBANK.png'),
+                      image: AssetImage('assets/images/logo/THEPOND_WHITE_SNOWBANK.png'),
                     ),
                     Container(
                       margin: EdgeInsets.only(
@@ -114,8 +113,7 @@ class _LoginState extends State<Login> {
                                 action: SnackBarAction(
                                   label: "Dismiss",
                                   onPressed: () {
-                                    _scaffoldKey.currentState
-                                        .hideCurrentSnackBar();
+                                    _scaffoldKey.currentState.hideCurrentSnackBar();
                                   },
                                 ),
                               ),
@@ -143,8 +141,7 @@ class _LoginState extends State<Login> {
                                 action: SnackBarAction(
                                   label: "Dismiss",
                                   onPressed: () {
-                                    _scaffoldKey.currentState
-                                        .hideCurrentSnackBar();
+                                    _scaffoldKey.currentState.hideCurrentSnackBar();
                                   },
                                 ),
                               ),
@@ -221,12 +218,10 @@ class _LoginState extends State<Login> {
                                 children: [
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Image(
                                             height: 50,
@@ -255,13 +250,11 @@ class _LoginState extends State<Login> {
                                                 decoration: InputDecoration(
                                                   labelText: 'Email',
                                                 ),
-                                                keyboardType:
-                                                    TextInputType.emailAddress,
+                                                keyboardType: TextInputType.emailAddress,
                                                 validator: (String value) {
                                                   if (value.isEmpty) {
                                                     return 'Please enter your email';
-                                                  } else if (!validEmail(
-                                                      value)) {
+                                                  } else if (!validEmail(value)) {
                                                     return 'Invalid email address';
                                                   }
 
@@ -277,8 +270,7 @@ class _LoginState extends State<Login> {
                                                 decoration: InputDecoration(
                                                   labelText: 'Password',
                                                 ),
-                                                keyboardType: TextInputType
-                                                    .visiblePassword,
+                                                keyboardType: TextInputType.visiblePassword,
                                                 validator: (String value) {
                                                   if (value.isEmpty) {
                                                     return 'Please enter a password';
@@ -289,22 +281,16 @@ class _LoginState extends State<Login> {
                                               ),
                                             ),
                                             Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
+                                              padding: const EdgeInsets.all(8.0),
                                               child: SizedBox(
                                                 width: double.infinity,
                                                 child: RaisedButton(
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
+                                                  color: Theme.of(context).primaryColor,
                                                   textColor: Colors.white,
                                                   child: Text("Sign in"),
                                                   onPressed: () async {
-                                                    if (_signInFormKey
-                                                        .currentState
-                                                        .validate()) {
-                                                      _signInFormKey
-                                                          .currentState
-                                                          .save();
+                                                    if (_signInFormKey.currentState.validate()) {
+                                                      _signInFormKey.currentState.save();
 
                                                       signIn(
                                                           context,
@@ -312,24 +298,15 @@ class _LoginState extends State<Login> {
                                                             _signInEmail.text,
                                                             _signInPass.text,
                                                           ), (error) async {
-                                                        _scaffoldKey
-                                                            .currentState
-                                                            .hideCurrentSnackBar();
-                                                        _scaffoldKey
-                                                            .currentState
-                                                            .showSnackBar(
+                                                        _scaffoldKey.currentState.hideCurrentSnackBar();
+                                                        _scaffoldKey.currentState.showSnackBar(
                                                           SnackBar(
-                                                            content:
-                                                                Text(error),
-                                                            duration: Duration(
-                                                                seconds: 10),
-                                                            action:
-                                                                SnackBarAction(
+                                                            content: Text(error),
+                                                            duration: Duration(seconds: 10),
+                                                            action: SnackBarAction(
                                                               label: "Dismiss",
                                                               onPressed: () {
-                                                                _scaffoldKey
-                                                                    .currentState
-                                                                    .hideCurrentSnackBar();
+                                                                _scaffoldKey.currentState.hideCurrentSnackBar();
                                                               },
                                                             ),
                                                           ),
@@ -383,14 +360,11 @@ class _LoginState extends State<Login> {
                                   children: [
                                     SingleChildScrollView(
                                       child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               Image(
                                                 height: 50,
@@ -419,8 +393,7 @@ class _LoginState extends State<Login> {
                                                     decoration: InputDecoration(
                                                       labelText: 'Email',
                                                     ),
-                                                    keyboardType: TextInputType
-                                                        .emailAddress,
+                                                    keyboardType: TextInputType.emailAddress,
                                                     validator: (String value) {
                                                       if (value.isEmpty) {
                                                         return 'Please enter your email';
@@ -441,13 +414,11 @@ class _LoginState extends State<Login> {
                                                     decoration: InputDecoration(
                                                       labelText: 'Password',
                                                     ),
-                                                    keyboardType: TextInputType
-                                                        .visiblePassword,
+                                                    keyboardType: TextInputType.visiblePassword,
                                                     validator: (String value) {
                                                       if (value.isEmpty) {
                                                         return 'Please enter a password';
-                                                      } else if (!validPassword(
-                                                          value)) {
+                                                      } else if (!validPassword(value)) {
                                                         return 'Please enter a stronger password';
                                                       }
 
@@ -458,20 +429,16 @@ class _LoginState extends State<Login> {
                                                 Padding(
                                                   padding: EdgeInsets.all(8.0),
                                                   child: TextFormField(
-                                                    controller:
-                                                        _signUpConfirmPass,
+                                                    controller: _signUpConfirmPass,
                                                     obscureText: hidePassword,
                                                     decoration: InputDecoration(
-                                                      labelText:
-                                                          'Confirm Password',
+                                                      labelText: 'Confirm Password',
                                                     ),
-                                                    keyboardType: TextInputType
-                                                        .visiblePassword,
+                                                    keyboardType: TextInputType.visiblePassword,
                                                     validator: (String value) {
                                                       if (value.isEmpty) {
                                                         return 'Please confirm your password';
-                                                      } else if (value !=
-                                                          _signUpPass.text) {
+                                                      } else if (value != _signUpPass.text) {
                                                         return 'Passwords do not match';
                                                       }
 
@@ -480,53 +447,32 @@ class _LoginState extends State<Login> {
                                                   ),
                                                 ),
                                                 Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
+                                                  padding: const EdgeInsets.all(8.0),
                                                   child: SizedBox(
                                                     width: double.infinity,
                                                     child: RaisedButton(
-                                                      color: Theme.of(context)
-                                                          .primaryColor,
+                                                      color: Theme.of(context).primaryColor,
                                                       textColor: Colors.white,
                                                       child: Text("Sign up"),
                                                       onPressed: () async {
-                                                        if (_signUpFormKey
-                                                            .currentState
-                                                            .validate()) {
-                                                          _signUpFormKey
-                                                              .currentState
-                                                              .save();
+                                                        if (_signUpFormKey.currentState.validate()) {
+                                                          _signUpFormKey.currentState.save();
 
                                                           signUp(
                                                               context,
                                                               AuthAttempt(
-                                                                _signUpEmail
-                                                                    .text,
-                                                                _signUpPass
-                                                                    .text,
+                                                                _signUpEmail.text,
+                                                                _signUpPass.text,
                                                               ), (error) async {
-                                                            _scaffoldKey
-                                                                .currentState
-                                                                .hideCurrentSnackBar();
-                                                            _scaffoldKey
-                                                                .currentState
-                                                                .showSnackBar(
+                                                            _scaffoldKey.currentState.hideCurrentSnackBar();
+                                                            _scaffoldKey.currentState.showSnackBar(
                                                               SnackBar(
-                                                                content:
-                                                                    Text(error),
-                                                                duration:
-                                                                    Duration(
-                                                                        seconds:
-                                                                            10),
-                                                                action:
-                                                                    SnackBarAction(
-                                                                  label:
-                                                                      "Dismiss",
-                                                                  onPressed:
-                                                                      () {
-                                                                    _scaffoldKey
-                                                                        .currentState
-                                                                        .hideCurrentSnackBar();
+                                                                content: Text(error),
+                                                                duration: Duration(seconds: 10),
+                                                                action: SnackBarAction(
+                                                                  label: "Dismiss",
+                                                                  onPressed: () {
+                                                                    _scaffoldKey.currentState.hideCurrentSnackBar();
                                                                   },
                                                                 ),
                                                               ),
@@ -634,8 +580,7 @@ class _LoginState extends State<Login> {
         if (e.code == "user-disabled") {
           message = "Your account has been disabled by the administrator";
         } else if (e.code == "account-exists-with-different-credential") {
-          message =
-              "An account already exists with the same email address but different sign-in credentials. Please try signing in a different way";
+          message = "An account already exists with the same email address but different sign-in credentials. Please try signing in a different way";
         }
 
         print(e);
@@ -651,8 +596,7 @@ class _LoginState extends State<Login> {
         if (e.code == "user-disabled") {
           message = "Your account has been disabled by the administrator";
         } else if (e.code == "account-exists-with-different-credential") {
-          message =
-              "An account already exists with the same email address but different sign-in credentials. Please try signing in a different way";
+          message = "An account already exists with the same email address but different sign-in credentials. Please try signing in a different way";
         }
 
         print(e);

@@ -30,8 +30,7 @@ class _ProfileState extends State<Profile> {
         title: Container(
           child: GestureDetector(
             onTap: () {
-              Navigator.of(context)
-                  .pushReplacement(MaterialPageRoute(builder: (context) {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
                 return Dashboard();
               }));
             },
@@ -105,11 +104,9 @@ class _ProfileState extends State<Profile> {
                                 Padding(
                                   padding: EdgeInsets.all(8.0),
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     mainAxisSize: MainAxisSize.max,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Expanded(
                                         child: TextFormField(
@@ -141,44 +138,29 @@ class _ProfileState extends State<Profile> {
                                                     : FlatButton(
                                                         onPressed: () async {
                                                           setState(() {
-                                                            emailVerificationSent =
-                                                                true;
+                                                            emailVerificationSent = true;
                                                           });
 
-                                                          await widget.user
-                                                              .sendEmailVerification()
-                                                              .then((_) {
-                                                            var timesChecked =
-                                                                0;
-                                                            return Timer
-                                                                .periodic(
-                                                                    Duration(
-                                                                        seconds:
-                                                                            5),
-                                                                    (timer) {
+                                                          await widget.user.sendEmailVerification().then((_) {
+                                                            var timesChecked = 0;
+                                                            return Timer.periodic(Duration(seconds: 3), (timer) {
                                                               timesChecked++;
 
                                                               if (emailVerified()) {
                                                                 setState(() {
-                                                                  emailIsVerified =
-                                                                      widget
-                                                                          .user
-                                                                          .emailVerified;
-                                                                  emailVerificationSent =
-                                                                      false;
+                                                                  emailIsVerified = widget.user.emailVerified;
+                                                                  emailVerificationSent = false;
 
-                                                                  timer
-                                                                      .cancel();
+                                                                  timer.cancel();
                                                                 });
-                                                              } else if (timesChecked >=
-                                                                  5) {
+                                                              } else if (timesChecked >= 40) {
+                                                                // 1 minute at 3 second intervals
                                                                 timer.cancel();
                                                               }
                                                             });
                                                           });
                                                         },
-                                                        color: Color.fromARGB(
-                                                            255, 225, 225, 225),
+                                                        color: Color.fromARGB(255, 225, 225, 225),
                                                         child: Text(
                                                           'verify',
                                                         ),

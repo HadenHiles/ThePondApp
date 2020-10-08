@@ -27,8 +27,7 @@ Future<UserCredential> signInWithFacebook() async {
   final LoginResult result = await FacebookAuth.instance.login();
 
   // Create a credential from the access token
-  final FacebookAuthCredential facebookAuthCredential =
-      FacebookAuthProvider.credential(result.accessToken.token);
+  final FacebookAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(result.accessToken.token);
 
   // Once signed in, return the UserCredential
   return await auth.signInWithCredential(facebookAuthCredential);
@@ -44,9 +43,7 @@ bool emailVerified() {
 }
 
 bool validEmail(String email) {
-  return RegExp(
-          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-      .hasMatch(email);
+  return RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email);
 }
 
 bool validPassword(String pass) {

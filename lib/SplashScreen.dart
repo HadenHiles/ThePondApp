@@ -4,10 +4,7 @@ import 'package:custom_splash/custom_splash.dart';
 import 'package:thepondapp/Dashboard.dart';
 import 'Login.dart';
 
-final Map<dynamic, Widget> returnValueAndHomeScreen = {
-  1: Login(),
-  2: Dashboard()
-};
+final Map<dynamic, Widget> returnValueAndHomeScreen = {1: Login(), 2: Dashboard()};
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key key}) : super(key: key);

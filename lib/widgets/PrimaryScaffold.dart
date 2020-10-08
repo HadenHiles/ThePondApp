@@ -34,8 +34,7 @@ class _PrimaryScaffoldState extends State<PrimaryScaffold> {
         title: Container(
           child: GestureDetector(
             onTap: () {
-              Navigator.of(context)
-                  .pushReplacement(MaterialPageRoute(builder: (context) {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
                 return Dashboard();
               }));
             },
@@ -73,8 +72,7 @@ class _PrimaryScaffoldState extends State<PrimaryScaffold> {
               child: Center(
                 child: Image(
                   height: 150,
-                  image: AssetImage(
-                      'assets/images/logo/THEPOND_WHITE_SNOWBANK.png'),
+                  image: AssetImage('assets/images/logo/THEPOND_WHITE_SNOWBANK.png'),
                 ),
               ),
               decoration: BoxDecoration(
@@ -93,8 +91,7 @@ class _PrimaryScaffoldState extends State<PrimaryScaffold> {
               title: Text('My Profile'),
               trailing: UserAvatar(),
               onTap: () {
-                Navigator.of(context)
-                    .pushReplacement(MaterialPageRoute(builder: (context) {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
                   return Profile(
                     user: user,
                   );
