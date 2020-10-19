@@ -20,9 +20,12 @@ class _ProfileState extends State<Profile> {
   // State variables
   bool emailIsVerified = emailVerified();
   bool emailVerificationSent = false;
+  bool hasActiveMembership = false;
 
   @override
   Widget build(BuildContext context) {
+    hasMembership().then((active) => {hasActiveMembership = active});
+
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
@@ -179,6 +182,11 @@ class _ProfileState extends State<Profile> {
                                   ),
                                 ),
                               ],
+                            ),
+                          ),
+                          Container(
+                            child: Text(
+                              hasActiveMembership ? "Has active membership" : "no membership",
                             ),
                           ),
                         ],
