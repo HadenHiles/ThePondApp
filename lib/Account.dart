@@ -27,21 +27,12 @@ class _AccountState extends State<Account> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
+        centerTitle: true,
         title: Container(
-          child: GestureDetector(
-            onTap: () {
-              Navigator.of(context)
-                  .pushReplacement(MaterialPageRoute(builder: (context) {
-                return Dashboard();
-              }));
-            },
-            child: Image(
-              height: 45,
-              image: AssetImage(
-                'assets/images/logo/THEPOND_RGB_WHITE_WORDMARK_RAW.png',
-              ),
+          child: Image(
+            height: 45,
+            image: AssetImage(
+              'assets/images/logo/THEPOND_RGB_WHITE_WORDMARK_RAW.png',
             ),
           ),
         ),
