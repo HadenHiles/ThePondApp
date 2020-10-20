@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:thepondapp/Dashboard.dart';
-import 'package:thepondapp/Profile.dart';
+import 'package:thepondapp/Account.dart';
 import 'package:thepondapp/Login.dart';
 import 'package:thepondapp/auth.dart';
 import 'package:thepondapp/widgets/UserAvatar.dart';
@@ -29,12 +29,12 @@ class _PrimaryScaffoldState extends State<PrimaryScaffold> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
+        automaticallyImplyLeading: false,
         title: Container(
           child: GestureDetector(
             onTap: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
+              Navigator.of(context)
+                  .pushReplacement(MaterialPageRoute(builder: (context) {
                 return Dashboard();
               }));
             },
@@ -48,18 +48,18 @@ class _PrimaryScaffoldState extends State<PrimaryScaffold> {
         ),
         actions: [
           Container(
-              height: 40,
-              width: 55,
-              padding: EdgeInsets.all(5),
-              child: GestureDetector(
-                child: UserAvatar(
-                  radius: 40,
-                  backgroundColor: Colors.transparent,
-                ),
-                onTap: () {
-                  _scaffoldKey.currentState.openEndDrawer();
-                },
-              ))
+            height: 40,
+            width: 55,
+            padding: EdgeInsets.all(5),
+            child: InkWell(
+              child: Icon(
+                Icons.menu,
+              ),
+              onTap: () {
+                _scaffoldKey.currentState.openEndDrawer();
+              },
+            ),
+          ),
         ],
       ),
       body: widget.body,
@@ -72,7 +72,8 @@ class _PrimaryScaffoldState extends State<PrimaryScaffold> {
               child: Center(
                 child: Image(
                   height: 150,
-                  image: AssetImage('assets/images/logo/THEPOND_WHITE_SNOWBANK.png'),
+                  image: AssetImage(
+                      'assets/images/logo/THEPOND_WHITE_SNOWBANK.png'),
                 ),
               ),
               decoration: BoxDecoration(
@@ -88,11 +89,12 @@ class _PrimaryScaffoldState extends State<PrimaryScaffold> {
               ),
             ),
             ListTile(
-              title: Text('My Profile'),
+              title: Text('My Account'),
               trailing: UserAvatar(),
               onTap: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-                  return Profile(
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) {
+                  return Account(
                     user: user,
                   );
                 }));

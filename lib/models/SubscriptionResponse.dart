@@ -1,5 +1,5 @@
 class SubscriptionResponse {
-  final String subscriptions;
+  final List<dynamic> subscriptions;
   final String error;
 
   SubscriptionResponse({this.subscriptions, this.error});
