@@ -29,20 +29,27 @@ class _PrimaryScaffoldState extends State<PrimaryScaffold> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Container(
-          child: GestureDetector(
-            onTap: () {
-              Navigator.of(context)
-                  .pushReplacement(MaterialPageRoute(builder: (context) {
-                return Dashboard();
-              }));
-            },
-            child: Image(
-              height: 45,
-              image: AssetImage(
-                'assets/images/logo/THEPOND_RGB_WHITE_WORDMARK_RAW.png',
+        leading: InkWell(
+          child: Icon(
+            Icons.dashboard,
+          ),
+          onTap: () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) {
+                  return Dashboard();
+                },
               ),
+            );
+          },
+        ),
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        title: Container(
+          child: Image(
+            height: 45,
+            image: AssetImage(
+              'assets/images/logo/THEPOND_RGB_WHITE_WORDMARK_RAW.png',
             ),
           ),
         ),
