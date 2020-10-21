@@ -15,8 +15,44 @@
       },
       "oauth_client": [
         {
-          "client_id": "541642630209-jbgcsi3cmk4fq6hi8nss6672tklvj00h.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "541642630209-93hr2gtlfi42gf9b2j8louf9tt987nv8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.howtohockey.thepondapp",
+            "certificate_hash": "3b0cd80525f44d5f77f84d6b3ecd17742bc76683"
+          }
+        },
+        {
+          "client_id": "541642630209-v0fl2ce3o9ikp04sg6uv8pe2l1ripngf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.howtohockey.thepondapp",
+            "certificate_hash": "6fc7e035c16708dffa55050a633254d4a05ba514"
+          }
+        },
+        {
+          "client_id": "541642630209-97k58i6q0u1skmvj6tme34k30rjqlkgl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.howtohockey.thepondapp",
+            "certificate_hash": "1224c3d2d205c9929af1a19561709f40b31a7bcf"
+          }
+        },
+        {
+          "client_id": "541642630209-bb6kl947ur42i7456sbi1vi3k4ano4t1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.howtohockey.thepondapp",
+            "certificate_hash": "09e0b4cc3b4a9de73a51a65c13a2e5c3daa08710"
+          }
+        },
+        {
+          "client_id": "541642630209-6869ro474giv6ciqnlakmp5nvgv8rvl1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.howtohockey.thepondapp",
+            "certificate_hash": "302f96c8c96a9b484e3cc810b786cfc7d0606e6a"
+          }
         }
       ],
       "api_key": [
