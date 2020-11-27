@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:thepondapp/SkillsVault.dart';
 import 'package:thepondapp/widgets/PrimaryScaffold.dart';
 import 'package:thepondapp/Login.dart';
-import 'package:thepondapp/auth.dart';
+import 'package:thepondapp/services/auth.dart';
 import 'package:thepondapp/widgets/SnowbankContainer.dart';
-import 'package:thepondapp/widgets/ShotCard.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class Dashboard extends StatefulWidget {
   Dashboard({Key key, this.logo}) : super(key: key);
@@ -32,6 +33,7 @@ class _DashboardState extends State<Dashboard> {
   // State variables
   bool signedIn = FirebaseAuth.instance.currentUser != null;
   bool emailVerified = FirebaseAuth.instance.currentUser?.emailVerified;
+  WebViewController _webController;
 
   @override
   Widget build(BuildContext context) {
@@ -45,35 +47,7 @@ class _DashboardState extends State<Dashboard> {
     return PrimaryScaffold(
       key: _scaffoldKey,
       body: SnowbankContainer(
-        child: GridView.count(
-          crossAxisCount: 2,
-          children: [
-            ShotCard(
-              name: 'Wrist Shot',
-              onTap: () {
-                print('Wrist Shot card tapped.');
-              },
-            ),
-            ShotCard(
-              name: 'Snap Shot',
-              onTap: () {
-                print('Snap Shot card tapped.');
-              },
-            ),
-            ShotCard(
-              name: 'Slap Shot',
-              onTap: () {
-                print('Slap Shot card tapped.');
-              },
-            ),
-            ShotCard(
-              name: 'Backhand',
-              onTap: () {
-                print('Backhand card tapped.');
-              },
-            )
-          ],
-        ),
+        child: SkillsVault(),
       ),
     );
   }

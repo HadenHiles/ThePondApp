@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:thepondapp/Dashboard.dart';
 import 'package:thepondapp/Account.dart';
 import 'package:thepondapp/Login.dart';
-import 'package:thepondapp/auth.dart';
+import 'package:thepondapp/services/auth.dart';
 import 'package:thepondapp/widgets/UserAvatar.dart';
 
 class PrimaryScaffold extends StatefulWidget {
@@ -79,8 +79,7 @@ class _PrimaryScaffoldState extends State<PrimaryScaffold> {
               child: Center(
                 child: Image(
                   height: 150,
-                  image: AssetImage(
-                      'assets/images/logo/THEPOND_WHITE_SNOWBANK.png'),
+                  image: AssetImage('assets/images/logo/THEPOND_WHITE_SNOWBANK.png'),
                 ),
               ),
               decoration: BoxDecoration(
@@ -99,8 +98,7 @@ class _PrimaryScaffoldState extends State<PrimaryScaffold> {
               title: Text('My Account'),
               trailing: UserAvatar(),
               onTap: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                   return Account(
                     user: user,
                   );

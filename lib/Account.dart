@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:thepondapp/Dashboard.dart';
 import 'package:thepondapp/widgets/SnowbankContainer.dart';
 import 'package:thepondapp/widgets/UserAvatar.dart';
-import 'package:thepondapp/auth.dart';
+import 'package:thepondapp/services/auth.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Account extends StatefulWidget {
@@ -82,8 +82,7 @@ class _AccountState extends State<Account> {
                               children: [
                                 Form(
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
                                       Padding(
@@ -111,11 +110,9 @@ class _AccountState extends State<Account> {
                                       Padding(
                                         padding: EdgeInsets.all(8.0),
                                         child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Expanded(
                                               child: TextFormField(
@@ -123,8 +120,7 @@ class _AccountState extends State<Account> {
                                                 initialValue: widget.user.email,
                                                 decoration: InputDecoration(
                                                   labelText: 'Email',
-                                                  disabledBorder:
-                                                      InputBorder.none,
+                                                  disabledBorder: InputBorder.none,
                                                 ),
                                                 style: TextStyle(
                                                   color: Colors.grey,
@@ -140,61 +136,37 @@ class _AccountState extends State<Account> {
                                                               onPressed: null,
                                                               child: Text(
                                                                 'verified',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Colors
-                                                                      .green,
+                                                                style: TextStyle(
+                                                                  color: Colors.green,
                                                                 ),
                                                               ),
                                                             )
                                                           : FlatButton(
-                                                              onPressed:
-                                                                  () async {
+                                                              onPressed: () async {
                                                                 setState(() {
-                                                                  emailVerificationSent =
-                                                                      true;
+                                                                  emailVerificationSent = true;
                                                                 });
 
-                                                                await widget
-                                                                    .user
-                                                                    .sendEmailVerification()
-                                                                    .then((_) {
-                                                                  var timesChecked =
-                                                                      0;
-                                                                  return Timer.periodic(
-                                                                      Duration(
-                                                                          seconds:
-                                                                              3),
-                                                                      (timer) {
+                                                                await widget.user.sendEmailVerification().then((_) {
+                                                                  var timesChecked = 0;
+                                                                  return Timer.periodic(Duration(seconds: 3), (timer) {
                                                                     timesChecked++;
 
                                                                     if (emailVerified()) {
-                                                                      setState(
-                                                                          () {
-                                                                        emailIsVerified = widget
-                                                                            .user
-                                                                            .emailVerified;
-                                                                        emailVerificationSent =
-                                                                            false;
+                                                                      setState(() {
+                                                                        emailIsVerified = widget.user.emailVerified;
+                                                                        emailVerificationSent = false;
 
-                                                                        timer
-                                                                            .cancel();
+                                                                        timer.cancel();
                                                                       });
-                                                                    } else if (timesChecked >=
-                                                                        40) {
+                                                                    } else if (timesChecked >= 40) {
                                                                       // 1 minute at 3 second intervals
-                                                                      timer
-                                                                          .cancel();
+                                                                      timer.cancel();
                                                                     }
                                                                   });
                                                                 });
                                                               },
-                                                              color: Color
-                                                                  .fromARGB(
-                                                                      255,
-                                                                      225,
-                                                                      225,
-                                                                      225),
+                                                              color: Color.fromARGB(255, 225, 225, 225),
                                                               child: Text(
                                                                 'verify',
                                                               ),
@@ -216,16 +188,13 @@ class _AccountState extends State<Account> {
                                         padding: EdgeInsets.all(8.0),
                                         child: FutureBuilder<bool>(
                                           future: hasMembership(),
-                                          builder: (context,
-                                              AsyncSnapshot<bool> snapshot) {
+                                          builder: (context, AsyncSnapshot<bool> snapshot) {
                                             if (!snapshot.hasData) {
                                               return Center(
-                                                child:
-                                                    CircularProgressIndicator(),
+                                                child: CircularProgressIndicator(),
                                               );
                                             } else {
-                                              return buildMembershipStatus(
-                                                  snapshot.data);
+                                              return buildMembershipStatus(snapshot.data);
                                             }
                                           },
                                         ),
@@ -264,8 +233,7 @@ class _AccountState extends State<Account> {
         Expanded(
           child: TextFormField(
             enabled: false,
-            initialValue:
-                !hasMembership ? "No active membership" : "Membership",
+            initialValue: !hasMembership ? "No active membership" : "Membership",
             decoration: InputDecoration(
               labelText: "The Pond",
               disabledBorder: InputBorder.none,

@@ -4,7 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:password_strength/password_strength.dart';
 import 'package:http/http.dart' as http;
-import 'models/SubscriptionResponse.dart';
+import '../models/SubscriptionResponse.dart';
 
 final FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -30,8 +30,7 @@ Future<UserCredential> signInWithFacebook() async {
   final LoginResult result = await FacebookAuth.instance.login();
 
   // Create a credential from the access token
-  final FacebookAuthCredential facebookAuthCredential =
-      FacebookAuthProvider.credential(result.accessToken.token);
+  final FacebookAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(result.accessToken.token);
 
   // Once signed in, return the UserCredential
   return await auth.signInWithCredential(facebookAuthCredential);
@@ -49,8 +48,7 @@ Future<bool> hasMembership() async {
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    SubscriptionResponse subResponse =
-        SubscriptionResponse.fromJson(jsonDecode(response.body));
+    SubscriptionResponse subResponse = SubscriptionResponse.fromJson(jsonDecode(response.body));
     return subResponse.subscriptions.length > 0;
   } else {
     // If the server did not return a 200 OK response,
@@ -69,9 +67,7 @@ bool emailVerified() {
 }
 
 bool validEmail(String email) {
-  return RegExp(
-          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-      .hasMatch(email);
+  return RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email);
 }
 
 bool validPassword(String pass) {

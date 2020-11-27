@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:thepondapp/Dashboard.dart';
-import 'package:thepondapp/auth.dart';
+import 'package:thepondapp/services/auth.dart';
 
 class Login extends StatefulWidget {
   Login({Key key}) : super(key: key);
