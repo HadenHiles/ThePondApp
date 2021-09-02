@@ -105,15 +105,15 @@ class _LoginState extends State<Login> {
                         Buttons.Google,
                         onPressed: () {
                           socialSignIn(context, 'google', (error) {
-                            _scaffoldKey.currentState.hideCurrentSnackBar();
-                            _scaffoldKey.currentState.showSnackBar(
+                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                            ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(error),
                                 duration: Duration(seconds: 10),
                                 action: SnackBarAction(
                                   label: "Dismiss",
                                   onPressed: () {
-                                    _scaffoldKey.currentState.hideCurrentSnackBar();
+                                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
                                   },
                                 ),
                               ),
@@ -133,15 +133,15 @@ class _LoginState extends State<Login> {
                         Buttons.Facebook,
                         onPressed: () {
                           socialSignIn(context, 'facebook', (error) {
-                            _scaffoldKey.currentState.hideCurrentSnackBar();
-                            _scaffoldKey.currentState.showSnackBar(
+                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                            ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(error),
                                 duration: Duration(seconds: 10),
                                 action: SnackBarAction(
                                   label: "Dismiss",
                                   onPressed: () {
-                                    _scaffoldKey.currentState.hideCurrentSnackBar();
+                                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
                                   },
                                 ),
                               ),
@@ -175,8 +175,10 @@ class _LoginState extends State<Login> {
                     SizedBox(
                       height: 60,
                       width: 360,
-                      child: RaisedButton(
-                        color: Colors.white,
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(Colors.white),
+                        ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -284,9 +286,11 @@ class _LoginState extends State<Login> {
                                               padding: const EdgeInsets.all(8.0),
                                               child: SizedBox(
                                                 width: double.infinity,
-                                                child: RaisedButton(
-                                                  color: Theme.of(context).primaryColor,
-                                                  textColor: Colors.white,
+                                                child: ElevatedButton(
+                                                  style: ButtonStyle(
+                                                    backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor),
+                                                    textStyle: MaterialStateProperty.all(TextStyle(color: Colors.white)),
+                                                  ),
                                                   child: Text("Sign in"),
                                                   onPressed: () async {
                                                     if (_signInFormKey.currentState.validate()) {
@@ -298,15 +302,15 @@ class _LoginState extends State<Login> {
                                                             _signInEmail.text,
                                                             _signInPass.text,
                                                           ), (error) async {
-                                                        _scaffoldKey.currentState.hideCurrentSnackBar();
-                                                        _scaffoldKey.currentState.showSnackBar(
+                                                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                                                        ScaffoldMessenger.of(context).showSnackBar(
                                                           SnackBar(
                                                             content: Text(error),
                                                             duration: Duration(seconds: 10),
                                                             action: SnackBarAction(
                                                               label: "Dismiss",
                                                               onPressed: () {
-                                                                _scaffoldKey.currentState.hideCurrentSnackBar();
+                                                                ScaffoldMessenger.of(context).hideCurrentSnackBar();
                                                               },
                                                             ),
                                                           ),
@@ -337,8 +341,10 @@ class _LoginState extends State<Login> {
                       child: SizedBox(
                         height: 60,
                         width: 360,
-                        child: FlatButton(
-                          color: Colors.transparent,
+                        child: TextButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                          ),
                           child: Text(
                             'Sign up'.toUpperCase(),
                             style: TextStyle(
@@ -450,9 +456,11 @@ class _LoginState extends State<Login> {
                                                   padding: const EdgeInsets.all(8.0),
                                                   child: SizedBox(
                                                     width: double.infinity,
-                                                    child: RaisedButton(
-                                                      color: Theme.of(context).primaryColor,
-                                                      textColor: Colors.white,
+                                                    child: ElevatedButton(
+                                                      style: ButtonStyle(
+                                                        backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor),
+                                                        textStyle: MaterialStateProperty.all(TextStyle(color: Colors.white)),
+                                                      ),
                                                       child: Text("Sign up"),
                                                       onPressed: () async {
                                                         if (_signUpFormKey.currentState.validate()) {
@@ -464,15 +472,15 @@ class _LoginState extends State<Login> {
                                                                 _signUpEmail.text,
                                                                 _signUpPass.text,
                                                               ), (error) async {
-                                                            _scaffoldKey.currentState.hideCurrentSnackBar();
-                                                            _scaffoldKey.currentState.showSnackBar(
+                                                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                                                            ScaffoldMessenger.of(context).showSnackBar(
                                                               SnackBar(
                                                                 content: Text(error),
                                                                 duration: Duration(seconds: 10),
                                                                 action: SnackBarAction(
                                                                   label: "Dismiss",
                                                                   onPressed: () {
-                                                                    _scaffoldKey.currentState.hideCurrentSnackBar();
+                                                                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
                                                                   },
                                                                 ),
                                                               ),
