@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:thepondapp/SkillsVault.dart';
 import 'package:thepondapp/widgets/PrimaryScaffold.dart';
 import 'package:thepondapp/Login.dart';
 import 'package:thepondapp/services/auth.dart';
 import 'package:thepondapp/widgets/SnowbankContainer.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class Dashboard extends StatefulWidget {
   Dashboard({Key key, this.logo}) : super(key: key);
@@ -33,7 +31,6 @@ class _DashboardState extends State<Dashboard> {
   // State variables
   bool signedIn = FirebaseAuth.instance.currentUser != null;
   bool emailVerified = FirebaseAuth.instance.currentUser?.emailVerified;
-  WebViewController _webController;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +44,7 @@ class _DashboardState extends State<Dashboard> {
     return PrimaryScaffold(
       key: _scaffoldKey,
       body: SnowbankContainer(
-        child: SkillsVault(),
+        child: Container(),
       ),
     );
   }
