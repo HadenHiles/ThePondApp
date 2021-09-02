@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:thepondapp/Dashboard.dart';
 import 'package:thepondapp/widgets/SnowbankContainer.dart';
 import 'package:thepondapp/widgets/UserAvatar.dart';
 import 'package:thepondapp/services/auth.dart';
@@ -131,7 +132,7 @@ class _AccountState extends State<Account> {
                                               child: !emailVerificationSent
                                                   ? Container(
                                                       child: emailIsVerified
-                                                          ? TextButton(
+                                                          ? FlatButton(
                                                               onPressed: null,
                                                               child: Text(
                                                                 'verified',
@@ -140,7 +141,7 @@ class _AccountState extends State<Account> {
                                                                 ),
                                                               ),
                                                             )
-                                                          : TextButton(
+                                                          : FlatButton(
                                                               onPressed: () async {
                                                                 setState(() {
                                                                   emailVerificationSent = true;
@@ -165,16 +166,14 @@ class _AccountState extends State<Account> {
                                                                   });
                                                                 });
                                                               },
-                                                              style: ButtonStyle(
-                                                                backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 225, 225, 225)),
-                                                              ),
+                                                              color: Color.fromARGB(255, 225, 225, 225),
                                                               child: Text(
                                                                 'verify',
                                                               ),
                                                             ),
                                                     )
                                                   : Container(
-                                                      child: TextButton(
+                                                      child: FlatButton(
                                                         onPressed: null,
                                                         child: Text(
                                                           'sent',
@@ -247,13 +246,11 @@ class _AccountState extends State<Account> {
         Container(
           margin: EdgeInsets.only(top: 10),
           child: !hasMembership
-              ? TextButton(
+              ? FlatButton(
                   onPressed: () {
                     _launchURL("https://thepond.howtohockey.com");
                   },
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 204, 51, 51)),
-                  ),
+                  color: Color.fromARGB(255, 204, 51, 51),
                   child: Text(
                     'activate',
                     style: TextStyle(
@@ -261,11 +258,9 @@ class _AccountState extends State<Account> {
                     ),
                   ),
                 )
-              : TextButton(
+              : FlatButton(
                   onPressed: null,
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.transparent),
-                  ),
+                  color: Colors.red,
                   child: Text(
                     'active',
                     style: TextStyle(
